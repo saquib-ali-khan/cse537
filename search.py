@@ -130,11 +130,97 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
   "Search the shallowest nodes in the search tree first. [p 81]"
   "*** YOUR CODE HERE ***"
+  from game import Actions
+  # fringe: list of active nodes
+  # explor: list of explored nodes
+  #i = 0
+  soln = []
+  explor = []
+  fringe = util.Queue()
+  #searchNode = (problem.getStartState(), problem.getStartState(), '', 0)
+  fringe.push(problem.getStartState())
+
+  #while i < 5:
+  while not fringe.isEmpty():    
+    node = fringe.pop()
+    explor.append(node)
+    if problem.isGoalState(node):
+      break
+    for successor in problem.getSuccessors(node):
+    #for successor in reversed(problem.getSuccessors(node)):
+      #childNode = (node[1], successor[0], successor[1], node[3] + successor[2])
+      childNode = successor[0]
+      if not (childNode in explor) and \
+        not (childNode in fringe.getList()):
+        #print childNode
+        fringe.push(childNode)
+    #i = i + 1
+  #print fringe.getList()
+  #print explor
+
+  curNode = goalNode = explor.pop()
+
+  while explor:
+    while curNode != goalNode:
+      curNode = explor.pop()
+    for successor in problem.getSuccessors(goalNode):
+      if successor[0] in reversed(explor):
+        #print str(goalNode) + '--' + str(successor[1]) + '-->' + str(successor[0])
+        goalNode = successor[0]
+        soln.append(Actions.reverseDirection(successor[1]))
+        continue
+    #print explor
+    #print '-----------'
+  #print soln[::-1]
+  return soln[::-1]
   util.raiseNotDefined()
       
 def uniformCostSearch(problem):
   "Search the node of least total cost first. "
   "*** YOUR CODE HERE ***"
+  from game import Actions
+  # fringe: list of active nodes
+  # explor: list of explored nodes
+  #i = 0
+  soln = []
+  explor = []
+  fringe = util.PriorityQueue()
+  #searchNode = (problem.getStartState(), problem.getStartState(), '', 0)
+  fringe.push(problem.getStartState(), 1)
+
+  #while i < 5:
+  while not fringe.isEmpty():    
+    node = fringe.pop()
+    explor.append(node)
+    if problem.isGoalState(node):
+      break
+    #for successor in problem.getSuccessors(node):
+    for successor in reversed(problem.getSuccessors(node)):
+      #childNode = (node[1], successor[0], successor[1], node[3] + successor[2])
+      childNode = successor[0]
+      if not (childNode in explor) and \
+        not (childNode in fringe.getList()):
+        #print childNode
+        fringe.push(childNode, successor[2])
+    #i = i + 1
+  print fringe.getList()
+  print explor
+
+  curNode = goalNode = explor.pop()
+
+  while explor:
+    while curNode != goalNode:
+      curNode = explor.pop()
+    for successor in problem.getSuccessors(goalNode):
+      if successor[0] in reversed(explor):
+        #print str(goalNode) + '--' + str(successor[1]) + '-->' + str(successor[0])
+        goalNode = successor[0]
+        soln.append(Actions.reverseDirection(successor[1]))
+        continue
+    #print explor
+    #print '-----------'
+  #print soln[::-1]
+  return soln[::-1]
   util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
@@ -147,6 +233,49 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
   "Search the node that has the lowest combined cost and heuristic first."
   "*** YOUR CODE HERE ***"
+  from game import Actions
+  # fringe: list of active nodes
+  # explor: list of explored nodes
+  #i = 0
+  soln = []
+  explor = []
+  fringe = util.PriorityQueueWithFunction(heuristic)
+  #searchNode = (problem.getStartState(), problem.getStartState(), '', 0)
+  fringe.push(problem.getStartState())
+
+  #while i < 5:
+  while not fringe.isEmpty():    
+    node = fringe.pop()
+    explor.append(node)
+    if problem.isGoalState(node):
+      break
+    #for successor in problem.getSuccessors(node):
+    for successor in reversed(problem.getSuccessors(node)):
+      #childNode = (node[1], successor[0], successor[1], node[3] + successor[2])
+      childNode = successor[0]
+      if not (childNode in explor) and \
+        not (childNode in fringe.getList()):
+        #print childNode
+        fringe.push(childNode)
+    #i = i + 1
+  print fringe.getList()
+  print explor
+
+  curNode = goalNode = explor.pop()
+
+  while explor:
+    while curNode != goalNode:
+      curNode = explor.pop()
+    for successor in problem.getSuccessors(goalNode):
+      if successor[0] in reversed(explor):
+        #print str(goalNode) + '--' + str(successor[1]) + '-->' + str(successor[0])
+        goalNode = successor[0]
+        soln.append(Actions.reverseDirection(successor[1]))
+        continue
+    #print explor
+    #print '-----------'
+  #print soln[::-1]
+  return soln[::-1]
   util.raiseNotDefined()
     
   
