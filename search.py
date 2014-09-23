@@ -121,7 +121,7 @@ def depthFirstSearch(problem):
     #print str(curNode[0]) + ', ' + str(curNode[1]) + ' == ' + str(goalState)
     while curNode[1] != parentNode[0]:
       curNode = visit.pop()
-    if curNode[0] == None:
+    if curNode[0] is None:
       break
     parentNode = curNode
     #print str(curNode[1]) + '--' + str(curNode[2]) + '-->' + str(curNode[0])
@@ -161,7 +161,7 @@ def breadthFirstSearch(problem):
     curNode = visit.pop()
     while curNode[1] != parentNode[0]:
       curNode = visit.pop()
-    if curNode[0] == None:
+    if curNode[0] is None:
       break
     parentNode = curNode
     soln.append(curNode[2])
@@ -196,7 +196,7 @@ def uniformCostSearch(problem):
     curNode = visit.pop()
     while curNode[1] != parentNode[0]:
       curNode = visit.pop()
-    if curNode[0] == None:
+    if curNode[0] is None:
       break
     parentNode = curNode
     soln.append(curNode[2])
@@ -238,7 +238,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     curNode = visit.pop()
     while curNode[1] != parentNode[0]:
       curNode = visit.pop()
-    if curNode[0] == None:
+    if curNode[0] is None:
       break
     parentNode = curNode
     soln.append(curNode[2])
