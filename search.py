@@ -179,18 +179,27 @@ def uniformCostSearch(problem):
   node = [None, problem.getStartState(), '', 0]
   fringe.push(node, 0)
 
-  while not fringe.isEmpty():    
+  while not fringe.isEmpty(): 
+    flag = True
     node = parent, state, dirctn, cost = fringe.pop()
+    #print '-------------------------'
+    #print node
+    #print explr
     if problem.isGoalState(state):
       visit.append(node)
       soln.append(node[2])
       break
-    if not (state in explr):
+    for vState, vCost in explr:
+      if state == vState and cost >= vCost:
+        #print str(vState) + ' $$ ' + str(vCost)
+        flag = False        
+    if flag:
       for successor in problem.getSuccessors(state):
-        fringe.push([state, successor[0], successor[1], successor[2]], successor[2])
+        #print cost + successor[2]
+        fringe.push([state, successor[0], successor[1], cost+successor[2]], cost+successor[2])
       visit.append(node)
-      explr.append(state)
-
+      explr.append((state, cost))
+  
   parentNode = visit.pop()
   while len(visit) != 1:    
     curNode = visit.pop()
@@ -219,19 +228,24 @@ def aStarSearch(problem, heuristic=nullHeuristic):
   visit = []
   fringe = util.PriorityQueue()
   node = [None, problem.getStartState(), '', 0]
-  fringe.push(node, 0) #heuristic(node[0], problem)
+  fringe.push(node, heuristic(node[1], problem))
 
-  while not fringe.isEmpty():    
+  while not fringe.isEmpty():
+    flag = True
     node = parent, state, dirctn, cost = fringe.pop()
     if problem.isGoalState(state):
       visit.append(node)
       soln.append(node[2])
       break
-    if not (state in explr):
+    for vState, vCost in explr:
+      if state == vState and cost >= vCost:
+        flag = False
+    if flag:
       for successor in problem.getSuccessors(state):
-        fringe.push([state, successor[0], successor[1], successor[2]], heuristic(state, problem))
+        fringe.push([state, successor[0], successor[1], cost + successor[2]], \
+                    cost + successor[2] + heuristic(state, problem))
       visit.append(node)
-      explr.append(state)
+      explr.append((state, cost))
 
   parentNode = visit.pop()
   while len(visit) != 1:    

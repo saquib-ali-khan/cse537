@@ -313,7 +313,7 @@ class CornersProblem(search.SearchProblem):
       #   hitsWall = self.walls[nextx][nexty]
       
       "*** YOUR CODE HERE ***"
-      
+
       x,y = state[0]
       dx, dy = Actions.directionToVector(action)
       nextx, nexty = int(x + dx), int(y + dy)
@@ -357,6 +357,14 @@ def cornersHeuristic(state, problem):
   walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
   
   "*** YOUR CODE HERE ***"
+  dist = []
+  xy1 = state[0]  
+  #xy2 = state[1][0]
+  for xy2 in state[1]:
+    dist.append(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]))
+    #dist.append(( (xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2 ) ** 0.5)
+  return max(dist)
+  #return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
   return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
