@@ -364,9 +364,10 @@ def cornersHeuristic(state, problem):
     dist.append(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]))
     #dist.append(( (xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2 ) ** 0.5)
   print str(state) + '-->' + str(dist)
+  if dist == []: # Reached goal state
+    return 0
   return max(dist)
   #return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
-  return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
   "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
@@ -470,8 +471,8 @@ def foodHeuristic(state, problem):
     for x in range(xy1[0], xy2[0]):
       if (x, xy1[1]) in problem.walls.asList():
         wallCount = wallCount + 1
-    problem.heuristicInfo[xy1] = wallCount      
-    dist.append(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]) + wallCount)
+    problem.heuristicInfo[xy1] = wallCount
+    dist.append(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]))
 
   '''
   for xy2 in problem.walls.asList():
@@ -480,8 +481,9 @@ def foodHeuristic(state, problem):
   problem.heuristicInfo[xy1] = max(dist)
   print "Min-Max: ", wallCount
   '''
+  if dist == []: # Reached goal state
+    return 0
   return max(dist)
-  return 0
   
 class ClosestDotSearchAgent(SearchAgent):
   "Search for all food using a sequence of searches"

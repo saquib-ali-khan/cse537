@@ -243,7 +243,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     if flag:
       for successor in problem.getSuccessors(state):
         fringe.push([state, successor[0], successor[1], cost + successor[2]], \
-                    cost + successor[2] + heuristic(state, problem))
+                    cost + successor[2] + heuristic(successor[0], problem))
       visit.append(node)
       explr.append((state, cost))
 
