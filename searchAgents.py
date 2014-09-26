@@ -363,6 +363,7 @@ def cornersHeuristic(state, problem):
   for xy2 in state[1]:
     dist.append(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]))
     #dist.append(( (xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2 ) ** 0.5)
+  print str(state) + '-->' + str(dist)
   return max(dist)
   #return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
   return 0 # Default to trivial solution
@@ -456,6 +457,30 @@ def foodHeuristic(state, problem):
   """
   position, foodGrid = state
   "*** YOUR CODE HERE ***"
+  wall = []
+  dist = []
+  xy1 = position
+  wallCount = 0
+  #xy2 = state[1][0]
+
+  for xy2 in foodGrid.asList():
+    for y in range(xy1[1], xy2[1]):
+      if (xy1[0], y) in problem.walls.asList():
+        wallCount = wallCount + 1
+    for x in range(xy1[0], xy2[0]):
+      if (x, xy1[1]) in problem.walls.asList():
+        wallCount = wallCount + 1
+    problem.heuristicInfo[xy1] = wallCount      
+    dist.append(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]) + wallCount)
+
+  '''
+  for xy2 in problem.walls.asList():
+    wall.append(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]))
+    #dist.append(( (xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2 ) ** 0.5)
+  problem.heuristicInfo[xy1] = max(dist)
+  print "Min-Max: ", wallCount
+  '''
+  return max(dist)
   return 0
   
 class ClosestDotSearchAgent(SearchAgent):
