@@ -83,9 +83,7 @@ def depthFirstSearch(problem):
   """
   "*** YOUR CODE HERE ***"
   from game import Actions
-  # fringe: list of active nodes
-  # explr: list of explored nodes
-  #i = 0
+  
   soln = []
   explr = []
   visit = []
@@ -93,44 +91,30 @@ def depthFirstSearch(problem):
   node = [None, problem.getStartState(), '', 0]
   fringe.push(node)
 
-  #while i < 5:
   while not fringe.isEmpty():    
     node = parent, state, dirctn, cost = fringe.pop()
     if problem.isGoalState(state):
       visit.append(node)
-      #print str(node[1]) + '--' + str(node[2]) + '-->' + str(node[0])
       soln.append(node[2])
-      #explr.append(state)
       break
 
-    if not (state in explr):# and \
-        #not (state in fringe.getList()):
+    if not (state in explr):
       for successor in problem.getSuccessors(state):
       #for successor in reversed(problem.getSuccessors(state)):
         fringe.push([state, successor[0], successor[1], successor[2]])
       visit.append(node)
       explr.append(state)
 
-  #print explr
-  #print visit
-
   parentNode = visit.pop()
   while len(visit) != 1:    
     curNode = visit.pop()
-    #print str(curNode) + str(parentNode)
-    #print str(curNode[0]) + ', ' + str(curNode[1]) + ' == ' + str(goalState)
     while curNode[1] != parentNode[0]:
       curNode = visit.pop()
+    # Null check for visited list
     if curNode[0] is None:
       break
     parentNode = curNode
-    #print str(curNode[1]) + '--' + str(curNode[2]) + '-->' + str(curNode[0])
     soln.append(curNode[2])
-    #i = i + 1
-    #print explor
-    #print '-----------'
-  #print soln[::-1]
-  #print visit
   return soln[::-1]
   util.raiseNotDefined()
 
@@ -182,20 +166,15 @@ def uniformCostSearch(problem):
   while not fringe.isEmpty(): 
     flag = True
     node = parent, state, dirctn, cost = fringe.pop()
-    #print '-------------------------'
-    #print node
-    #print explr
     if problem.isGoalState(state):
       visit.append(node)
       soln.append(node[2])
       break
     for vState, vCost in explr:
       if state == vState and cost >= vCost:
-        #print str(vState) + ' $$ ' + str(vCost)
         flag = False        
     if flag:
       for successor in problem.getSuccessors(state):
-        #print cost + successor[2]
         fringe.push([state, successor[0], successor[1], cost+successor[2]], cost+successor[2])
       visit.append(node)
       explr.append((state, cost))

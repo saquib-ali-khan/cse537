@@ -359,15 +359,13 @@ def cornersHeuristic(state, problem):
   "*** YOUR CODE HERE ***"
   dist = []
   xy1 = state[0]  
-  #xy2 = state[1][0]
   for xy2 in state[1]:
+    # Manhattan Heuristic
     dist.append(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]))
-    #dist.append(( (xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2 ) ** 0.5)
-  print str(state) + '-->' + str(dist)
-  if dist == []: # Reached goal state
+  # Reached goal state
+  if dist == []:
     return 0
   return max(dist)
-  #return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
 
 class AStarCornersAgent(SearchAgent):
   "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
@@ -462,26 +460,25 @@ def foodHeuristic(state, problem):
   dist = []
   xy1 = position
   wallCount = 0
-  #xy2 = state[1][0]
 
   for xy2 in foodGrid.asList():
+    '''
+    # TODO: Use convex hull 
+    # Use wall count to further improve heuristic
     for y in range(xy1[1], xy2[1]):
       if (xy1[0], y) in problem.walls.asList():
         wallCount = wallCount + 1
     for x in range(xy1[0], xy2[0]):
       if (x, xy1[1]) in problem.walls.asList():
         wallCount = wallCount + 1
+    # Use DP to store values and provide before hand
     problem.heuristicInfo[xy1] = wallCount
+    '''
+    # Manhattan Heuristic
     dist.append(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]))
 
-  '''
-  for xy2 in problem.walls.asList():
-    wall.append(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]))
-    #dist.append(( (xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2 ) ** 0.5)
-  problem.heuristicInfo[xy1] = max(dist)
-  print "Min-Max: ", wallCount
-  '''
-  if dist == []: # Reached goal state
+  # Reached goal state
+  if dist == []:
     return 0
   return max(dist)
   
