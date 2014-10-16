@@ -75,6 +75,17 @@ class ReflexAgent(Agent):
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
 
         "*** YOUR CODE HERE ***"
+        ghost = str(newGhostStates[0])
+        ghost = ghost[ghost.find('=') + 1 : ghost.rfind(',')]
+        ghost = ghost.replace(".0", "")
+        #print newPos, newGhostStates[0]
+
+        if str(newPos) == ghost:
+            return -10
+        if newFood[newPos[0]][newPos[1]]:
+            return 3
+        if newScaredTimes[0] > 0:
+            return 10
         return successorGameState.getScore()
 
 def scoreEvaluationFunction(currentGameState):
